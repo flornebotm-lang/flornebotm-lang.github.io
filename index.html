@@ -616,7 +616,7 @@
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('home'); return false;">Biografía</a></li>
     <li><a href="#" onclick="showPage('home'); scrollToProjects(); return false;">Proyectos</a></li>
-    <li><a href="/cdn-cgi/l/email-protection#7d1b11120f5313181f1209103d1a101c1411531e1210">Contacto</a></li>
+    <li><a href="#" onclick="showPage('home'); setTimeout(()=>document.getElementById('contacto').scrollIntoView({behavior:'smooth'}),100); return false;">Contacto</a></li>
   </ul>
 </nav>
 
@@ -791,15 +791,20 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-name">Florencia Nebot Macagno</div>
-    <div class="footer-contact">
-      <a href="/cdn-cgi/l/email-protection#85e3e9eaf7abebe0e7eaf1e8c5e2e8e4ece9abe6eae8"><span class="__cf_email__" data-cfemail="97f1fbf8e5b9f9f2f5f8e3fad7f0faf6fefbb9f4f8fa">[email&#160;protected]</span></a>
-      &nbsp;·&nbsp;
-      <a href="https://github.com/flornebotm-lang" target="_blank">GitHub</a>
+  <!-- CONTACT -->
+  <section id="contacto" style="border-top: 1px solid var(--border); text-align:center; padding: 5rem 4rem;">
+    <div class="section-label" style="justify-content:center;">Contacto</div>
+    <h2 style="margin-bottom:1rem;">¿Hablamos?</h2>
+    <p style="color:var(--muted); max-width:480px; margin: 0 auto 2.5rem; font-size:1rem; line-height:1.8;">
+      Estoy disponible para oportunidades en datos e IA. Podés escribirme por email o conectar en LinkedIn.
+    </p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem;">
+      <a href="mailto:flor.nebotm@gmail.com" class="btn-primary">flor.nebotm@gmail.com</a>
+      <a href="http://www.linkedin.com/in/florencia-nebot" target="_blank" class="btn-secondary">LinkedIn</a>
+      <a href="https://github.com/flornebotm-lang" target="_blank" class="btn-secondary">GitHub</a>
     </div>
-  </footer>
+    <div style="font-family:'DM Serif Display',serif; font-size:0.9rem; color:var(--muted);">Florencia Nebot Macagno · Uruguay</div>
+  </section>
 
 </div>
 
