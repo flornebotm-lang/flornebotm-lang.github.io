@@ -807,17 +807,21 @@
 <div class="page" id="page-claria">
   <div class="project-detail">
     <button class="back-btn" onclick="showPage('home')">← Volver a proyectos</button>
-    <div class="project-type">Agente IA · RAG · NLP</div>
+    <div class="project-type">Agente IA · RAG · Deep Learning</div>
     <h1>ClarIA: Resolución Inteligente de Reclamos</h1>
     <div class="project-detail-body">
       <div class="project-detail-text">
-        <p>ClarIA es un agente de inteligencia artificial para la resolución automática de reclamos, construido sobre una arquitectura RAG (Retrieval-Augmented Generation) con Ollama como motor de lenguaje local. El sistema identifica, categoriza y responde reclamos de manera inteligente, reduciendo la intervención manual y mejorando los tiempos de respuesta.</p>
+        <p>ClarIA es un agente inteligente basado en Deep Learning para la resolución automática de reclamos financieros, construido sobre una arquitectura RAG (Retrieval-Augmented Generation) con Ollama como motor de lenguaje local. El sistema procesa un dataset de más de 1.2 millones de quejas de consumidores de la CFPB (Consumer Financial Protection Bureau), filtrando y analizando reclamos del sector bancario.</p>
         <h3>Problema</h3>
-        <p>Las organizaciones que gestionan grandes volúmenes de reclamos enfrentan demoras operativas y falta de consistencia en la clasificación manual. ClarIA aborda este problema mediante un agente que combina recuperación de información relevante con generación de respuestas contextualizadas.</p>
-        <h3>Solución</h3>
-        <p>Se implementó una arquitectura RAG que, ante cada reclamo entrante, recupera documentación y casos similares relevantes y los utiliza como contexto para que el modelo de lenguaje (servido localmente con Ollama) genere una respuesta precisa y fundamentada. Esto permite al agente operar con conocimiento actualizado sin necesidad de reentrenamiento.</p>
+        <p>Las empresas reciben miles de quejas diariamente pero carecen de herramientas para identificar automáticamente los problemas subyacentes. Los reclamos se analizan manualmente o se clasifican superficialmente, sin detectar causas raíz que podrían prevenir futuros problemas si se corrigen a tiempo.</p>
+        <h3>Arquitectura técnica</h3>
+        <p>El pipeline combina cuatro etapas: (1) <strong>limpieza y submuestreo</strong> del dataset original a 1.941 registros balanceados por categoría; (2) <strong>validación semántica</strong> con Ollama 3.2 para filtrar comentarios sin valor (solo 2.47% descartados); (3) <strong>indexación vectorial</strong> con embeddings all-MiniLM-L6-v2 y base de datos FAISS para búsqueda semántica de alta velocidad; (4) <strong>generación de respuestas</strong> con Ollama (Llama 3.2 1B) que interpreta los fragmentos recuperados y produce análisis coherentes.</p>
+        <h3>Optimización</h3>
+        <p>Se realizó un experimento de chunking comparando fragmentos de 200, 300 y 400 caracteres, seleccionando 300 como el equilibrio óptimo. El parámetro k (vecinos recuperados) fue optimizado a k=5, mejorando el score semántico de 0.80–0.85 a 0.869. El sistema rechaza correctamente consultas fuera del dominio financiero y en idiomas distintos al inglés.</p>
         <h3>Resultados</h3>
-        <p>El agente demostró capacidad para resolver reclamos de forma autónoma con respuestas coherentes y relevantes, validando la viabilidad de arquitecturas RAG con modelos locales para casos de uso empresariales.</p>
+        <p>El agente demostró consistencia semántica sólida: al consultar sobre "interest rates", recuperó fragmentos de Student Loans y Personal Loans simultáneamente, mostrando que el motor no queda sesgado a un solo tipo de producto. El modelo seleccionado (Llama 3.2 1B) mantiene estructura profesional y brevedad sin inventar información no presente en el contexto.</p>
+        <h3>Próximos pasos</h3>
+        <p>Escalar a datasets más grandes, incorporar datos estructurados (fecha, empresa, perfil del cliente), implementar un pipeline de actualización continua y desarrollar un dashboard interactivo para consultas en lenguaje natural.</p>
       </div>
       <div class="project-sidebar">
         <div class="sidebar-card">
@@ -826,13 +830,19 @@
             <span class="tag">Python</span>
             <span class="tag">RAG</span>
             <span class="tag">Ollama</span>
+            <span class="tag">FAISS</span>
+            <span class="tag">all-MiniLM-L6-v2</span>
+            <span class="tag">Deep Learning</span>
             <span class="tag">NLP</span>
-            <span class="tag">LLM</span>
           </div>
         </div>
         <div class="sidebar-card">
+          <h4>Dataset</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">Consumer Complaint Database (CFPB) · 1.2M registros · filtrado a 1.941 casos bancarios</p>
+        </div>
+        <div class="sidebar-card">
           <h4>Tipo de proyecto</h4>
-          <p style="font-size:0.85rem; color:var(--muted);">Agente IA · Retrieval-Augmented Generation · Modelo de lenguaje local</p>
+          <p style="font-size:0.85rem; color:var(--muted);">Agente IA · Retrieval-Augmented Generation · LLM local</p>
         </div>
         <div class="sidebar-card">
           <h4>Contexto</h4>
@@ -847,31 +857,39 @@
 <div class="page" id="page-dineordash">
   <div class="project-detail">
     <button class="back-btn" onclick="showPage('home')">← Volver a proyectos</button>
-    <div class="project-type">Sistema de Recomendación</div>
+    <div class="project-type">Sistema de Recomendación · Collaborative Filtering</div>
     <h1>Dine or Dash: Sistema de Recomendación de Restaurantes</h1>
     <div class="project-detail-body">
       <div class="project-detail-text">
-        <p>Dine or Dash es un motor de recomendación de restaurantes que sugiere opciones personalizadas basándose en el historial y preferencias del usuario, aplicando técnicas de filtrado colaborativo y basado en contenido.</p>
+        <p>Sistema de recomendación personalizado de restaurantes construido sobre el dataset de Yelp de Philadelphia, con 111.831 reseñas de 8.714 usuarios y 3.372 restaurantes únicos. El proyecto evaluó y comparó cinco modelos distintos de recomendación para identificar el más efectivo.</p>
         <h3>Problema</h3>
-        <p>Con la enorme cantidad de opciones gastronómicas disponibles, los usuarios tienen dificultades para descubrir restaurantes que realmente se ajusten a sus preferencias. El sistema apunta a personalizar esta experiencia de forma inteligente.</p>
-        <h3>Solución</h3>
-        <p>Se implementaron algoritmos de filtrado colaborativo que identifican patrones de comportamiento entre usuarios similares, combinados con análisis del contenido de los restaurantes (cocina, precio, ubicación) para generar recomendaciones relevantes.</p>
+        <p>La paradoja de la elección: demasiadas opciones no liberan al usuario, lo paralizan. Con miles de restaurantes disponibles, los usuarios necesitan recomendaciones que sean personalmente relevantes, no solo las más populares en términos generales.</p>
+        <h3>Modelos evaluados</h3>
+        <p><strong>1. Rank-Based (baseline):</strong> recomendaciones por popularidad general, útil para usuarios nuevos (cold start). <strong>2. Collaborative Filtering User-User (KNN):</strong> identifica usuarios con patrones similares — precisión 73%, recall 80%. <strong>3. Collaborative Filtering Item-Item:</strong> similaridad entre restaurantes. <strong>4. Matrix Factorization (SVD):</strong> RMSE 1.04, mejor balance entre precisión y recall. <strong>5. SVD con Análisis de Sentimiento:</strong> incorpora el texto de las reseñas para enriquecer las predicciones.</p>
         <h3>Resultados</h3>
-        <p>El sistema logró recomendaciones personalizadas con buena cobertura y relevancia, validadas mediante métricas estándar de sistemas de recomendación.</p>
+        <p>El modelo ganador fue <strong>SVD con Análisis de Sentimiento</strong>, alcanzando un Recall de 84% — el más alto de todos los modelos. Esto significa que el sistema identifica correctamente el 84% de los restaurantes que un usuario realmente disfrutaría. La integración del análisis de sentimiento del texto de las reseñas demostró aportar valor más allá de las calificaciones numéricas.</p>
+        <h3>Hallazgos clave</h3>
+        <p>Los restaurantes con Drive-Thru muestran ratings notablemente más bajos. La cocina asiática y los cafés mantienen el mejor equilibrio entre popularidad y calidad. Los usuarios más activos tienden a ser más críticos con el tiempo, lo que confirma que las "estrellas" son relativas al perfil del reviewer.</p>
       </div>
       <div class="project-sidebar">
         <div class="sidebar-card">
           <h4>Tecnologías</h4>
           <div class="skill-tags">
             <span class="tag">Python</span>
-            <span class="tag">Collaborative Filtering</span>
-            <span class="tag">Pandas</span>
+            <span class="tag">SVD</span>
+            <span class="tag">KNN</span>
+            <span class="tag">Sentiment Analysis</span>
             <span class="tag">Surprise</span>
+            <span class="tag">Pandas</span>
           </div>
         </div>
         <div class="sidebar-card">
-          <h4>Tipo de proyecto</h4>
-          <p style="font-size:0.85rem; color:var(--muted);">Sistema de recomendación · Filtrado colaborativo</p>
+          <h4>Dataset</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">Yelp Philadelphia · 111.831 reseñas · 8.714 usuarios · 3.372 restaurantes</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>Mejor modelo</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">SVD + Análisis de Sentimiento · Recall 84% · Precisión 73%</p>
         </div>
         <div class="sidebar-card">
           <h4>Contexto</h4>
@@ -886,17 +904,22 @@
 <div class="page" id="page-soundstats">
   <div class="project-detail">
     <button class="back-btn" onclick="showPage('home')">← Volver a proyectos</button>
-    <div class="project-type">Análisis Exploratorio de Datos</div>
+    <div class="project-type">Análisis Exploratorio · Visualización de Datos</div>
     <h1>SoundStats: Diagnóstico Exploratorio de Tendencias Musicales</h1>
     <div class="project-detail-body">
       <div class="project-detail-text">
-        <p>SoundStats es un análisis exploratorio de datos (EDA) sobre tendencias en el consumo musical, orientado a identificar patrones en popularidad, géneros y características sonoras a lo largo del tiempo.</p>
+        <p>Análisis exploratorio exhaustivo sobre un dataset de 32.833 canciones de Spotify, orientado a identificar patrones de popularidad, tendencias de lanzamiento y características sonoras por género. El proyecto abarcó desde la evaluación de calidad de datos hasta visualizaciones avanzadas de series temporales y correlaciones.</p>
         <h3>Problema</h3>
-        <p>La industria musical genera enormes volúmenes de datos de consumo. Entender qué características definen una canción popular o qué géneros dominan en distintos periodos es valioso tanto para artistas como para plataformas y sellos.</p>
-        <h3>Metodología</h3>
-        <p>Se realizó un análisis exploratorio exhaustivo sobre un dataset de canciones con atributos de audio y métricas de popularidad. El proceso incluyó limpieza de datos, análisis de correlaciones, visualización de distribuciones y detección de tendencias temporales.</p>
+        <p>Spotify busca entender qué patrones musicales permiten mantener a los usuarios más tiempo en la plataforma. El análisis partió de una pregunta central: ¿qué características definen una canción popular y cómo evolucionaron las tendencias musicales a lo largo del tiempo?</p>
+        <h3>Calidad de datos y limpieza</h3>
+        <p>Se evaluaron 6 dimensiones de calidad (completitud, validez, precisión, consistencia, relevancia y unicidad). El dataset presentó muy pocos nulos, sin duplicados de registro, pero sí 7.643 canciones repetidas entre playlists. Para resolverlo se imputó el género por moda de playlist por canción, conservando una única observación por track con su género más representativo. Se trabajó también con outliers en variables como liveness y acousticness, manteniéndolos por ser representativos del comportamiento real de los artistas.</p>
+        <h3>Principales hallazgos</h3>
+        <p><strong>Popularidad:</strong> 2.620 canciones tienen popularidad 0, concentradas en electrónica — género que no sostiene reproducciones en el tiempo. Pop y latin son los géneros con mayor popularidad sostenida. La canción más popular del dataset es "Dance Monkey" (pop). Queen acumula la mayor popularidad total, destacándose en rock.</p>
+        <p><strong>Duración:</strong> La duración media creció hasta los 2000s y cayó desde 2010. Sin embargo, no existe correlación entre duración y popularidad — otros factores como género, artista y contexto social son más determinantes.</p>
+        <p><strong>Características sonoras:</strong> Danceability, energy y valence no tienen correlación fuerte con popularidad (Spearman ≈ 0). Sí existe correlación negativa entre acousticness y energy (-0.55): las canciones más acústicas tienden a ser menos energéticas. Las canciones acústicas resultaron más populares en el dataset, probablemente por el menor peso del género electrónica en ese segmento.</p>
+        <p><strong>Estacionalidad:</strong> Enero es el mes con más lanzamientos. Las canciones más bailables se lanzan en diciembre y enero, coincidiendo con fiestas de fin de año. El boom de la electrónica desde 2018 explica el aumento de canciones con alto liveness a partir de ese año.</p>
         <h3>Resultados</h3>
-        <p>Se identificaron patrones claros en la evolución de géneros y características sonoras (energía, tempo, valencia) que permiten describir las tendencias del mercado musical en la última década.</p>
+        <p>Los géneros pop y latin dominan en popularidad media. Electrónica y rock presentan mayor variabilidad. Ningún género excepto electrónica y rock deja de alcanzar canciones con popularidad superior a 90. Los re-lanzamientos generalmente no superan en popularidad a la versión original, aunque ayudan a mantener la presencia del artista en el tiempo.</p>
       </div>
       <div class="project-sidebar">
         <div class="sidebar-card">
@@ -906,12 +929,17 @@
             <span class="tag">Pandas</span>
             <span class="tag">Seaborn</span>
             <span class="tag">Matplotlib</span>
+            <span class="tag">Scipy</span>
             <span class="tag">EDA</span>
           </div>
         </div>
         <div class="sidebar-card">
-          <h4>Tipo de proyecto</h4>
-          <p style="font-size:0.85rem; color:var(--muted);">Análisis exploratorio · Visualización de datos</p>
+          <h4>Dataset</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">32.833 canciones de Spotify · 6 géneros · variables de audio, popularidad y lanzamiento</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>Técnicas</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">EDA · Análisis de correlación (Spearman) · Series temporales · Detección de outliers · Pruebas de normalidad</p>
         </div>
         <div class="sidebar-card">
           <h4>Contexto</h4>
@@ -922,21 +950,27 @@
   </div>
 </div>
 
-<!-- PROJECT: CLIENT CATCH -->
 <div class="page" id="page-clientcatch">
   <div class="project-detail">
     <button class="back-btn" onclick="showPage('home')">← Volver a proyectos</button>
-    <div class="project-type">Segmentación · Clustering</div>
-    <h1>Client Catch: Segmentación con KMeans</h1>
+    <div class="project-type">Segmentación · Clustering · Aprendizaje No Supervisado</div>
+    <h1>Client Catch: Segmentación de Clientes con KMeans</h1>
     <div class="project-detail-body">
       <div class="project-detail-text">
-        <p>Client Catch es un proyecto de segmentación de clientes mediante el algoritmo KMeans, orientado a identificar grupos homogéneos dentro de una base de clientes para optimizar estrategias de marketing y personalización de productos.</p>
-        <h3>Problema</h3>
-        <p>Las empresas con grandes bases de clientes necesitan estrategias diferenciadas según el perfil de cada segmento. La segmentación manual es ineficiente y subjetiva; un enfoque basado en datos permite hacerlo de manera sistemática y escalable.</p>
+        <p>Proyecto de segmentación de clientes aplicado a una empresa retail en crecimiento. A partir de un dataset de 2.240 clientes con variables de demografía, personalidad y comportamiento de compra, se identificaron segmentos accionables para optimizar estrategias de marketing, retención y asignación de recursos.</p>
+        <h3>Contexto de negocio</h3>
+        <p>La empresa buscaba entender mejor los perfiles de sus clientes para desarrollar campañas personalizadas, mejorar la retención de clientes de alto valor y optimizar decisiones de inventario, pricing y canales de venta. La segmentación manual era ineficiente y subjetiva.</p>
         <h3>Metodología</h3>
-        <p>Se aplicó el algoritmo KMeans sobre variables de comportamiento y características demográficas de clientes. Se utilizaron técnicas de reducción de dimensionalidad para visualización y el método del codo para determinar el número óptimo de clusters.</p>
-        <h3>Resultados</h3>
-        <p>Se identificaron segmentos de clientes con perfiles diferenciados y accionables, con recomendaciones concretas para cada grupo en términos de producto, comunicación y canal.</p>
+        <p>El dataset contaba con 28 variables originales (3 categóricas, 25 numéricas). El proceso incluyó: imputación de nulos en la variable Income con mediana, análisis univariado y bivariado extenso (histogramas, boxplots, heatmap de correlaciones), y eliminación de variables irrelevantes como constantes o con errores de carga (marital status con valores "Absurd" y "YOLO"). La variable Year_Birth fue descartada por baja desviación estándar.</p>
+        <p>Para determinar el número óptimo de clusters se aplicaron dos métodos: <strong>Elbow Method</strong> y <strong>Silhouette Score</strong>. Ambos convergieron en 2 clusters como la segmentación óptima. El modelo se entrenó en 0 segundos.</p>
+        <h3>Perfiles identificados</h3>
+        <p><strong>Cluster 1 — Alto valor (sin hijos o con un adolescente):</strong> alto poder adquisitivo, mayor gasto en todas las categorías (especialmente vinos y carnes premium), sin interés en descuentos. Es el segmento más rentable de la empresa.</p>
+        <p><strong>Cluster 2 — Sensibles al precio (con hijos y/o adolescentes):</strong> menor ingreso, más orientados a compras con descuento, representan un volumen de ventas significativo aunque con menor rentabilidad individual.</p>
+        <h3>Recomendaciones de negocio</h3>
+        <p><strong>Para Cluster 1:</strong> implementar un programa de lealtad premium con beneficios escalonados por nivel de gasto. Enviar catálogos personalizados de productos gourmet (vinos premiados, cortes de carne de exportación). Organizar eventos exclusivos como catas de vino o experiencias gastronómicas. Colaborar con creadores de contenido que reflejen el estilo de vida de este segmento.</p>
+        <p><strong>Para Cluster 2:</strong> fortalecer campañas promocionales y de descuentos, especialmente en productos esenciales para hogares con niños. Desarrollar bundles y ofertas dirigidas para aumentar el ticket promedio progresivamente.</p>
+        <h3>Hallazgo clave del EDA</h3>
+        <p>Existe correlación positiva fuerte entre el gasto en carnes y las compras por catálogo — los clientes que compran carne tienden a hacerlo a través de ese canal. También hay correlación positiva entre el gasto en distintos productos, indicando que los mejores clientes no se especializan en una categoría sino que compran más en todas.</p>
       </div>
       <div class="project-sidebar">
         <div class="sidebar-card">
@@ -945,13 +979,18 @@
             <span class="tag">Python</span>
             <span class="tag">KMeans</span>
             <span class="tag">Scikit-learn</span>
-            <span class="tag">PCA</span>
             <span class="tag">Pandas</span>
+            <span class="tag">Seaborn</span>
+            <span class="tag">Matplotlib</span>
           </div>
         </div>
         <div class="sidebar-card">
-          <h4>Tipo de proyecto</h4>
-          <p style="font-size:0.85rem; color:var(--muted);">Aprendizaje no supervisado · Segmentación de clientes</p>
+          <h4>Dataset</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">2.240 clientes · 28 variables · demografía, personalidad y comportamiento de compra</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>Resultado</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">2 clusters óptimos (Silhouette Score + Elbow) · Tiempo de entrenamiento: 0 seg · Recomendaciones diferenciadas por segmento</p>
         </div>
         <div class="sidebar-card">
           <h4>Contexto</h4>
@@ -962,21 +1001,22 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- PROJECT: GOODREADS -->
 <div class="page" id="page-goodreads">
   <div class="project-detail">
     <button class="back-btn" onclick="showPage('home')">← Volver a proyectos</button>
-    <div class="project-type">Clasificación · Predicción</div>
-    <h1>GoodReads: Modelo de clasificación para predecir la popularidad de un libro</h1>
+    <div class="project-type">Clasificación Supervisada · Predicción</div>
+    <h1>GoodReads: Modelo de Clasificación para Predecir la Popularidad de un Libro</h1>
     <div class="project-detail-body">
       <div class="project-detail-text">
-        <p>Proyecto de clasificación supervisada orientado a predecir la popularidad de un libro a partir de sus características editoriales y métricas de reseñas, usando un dataset de 16.225 libros extraído de la plataforma GoodReads.</p>
+        <p>Proyecto de clasificación supervisada que predice si un libro será popular o no, a partir de sus características editoriales, métricas de reseñas y reputación del autor. Dataset de 16.225 libros de GoodReads, con trabajo extenso de ingeniería de features para construir variables predictivas robustas.</p>
         <h3>Problema</h3>
-        <p>Con más de 6.000 libros publicados por día a nivel global, plataformas como GoodReads necesitan herramientas que les permitan identificar qué libros tienen mayor probabilidad de ser populares para ofrecer mejores recomendaciones a sus usuarios. El desafío es predecir esa popularidad antes de que el libro acumule reseñas masivas.</p>
-        <h3>Metodología</h3>
-        <p>Se entrenaron y compararon cuatro modelos de clasificación: Regresión Logística, Decision Tree, Random Forest y XGBoost. El proceso incluyó limpieza de datos, ingeniería de features, tratamiento de duplicados y validación cruzada para seleccionar el modelo más robusto.</p>
-        <h3>Resultados</h3>
-        <p>El modelo seleccionado fue <strong>XGBoost</strong>, con una precisión del 71% y la menor varianza entre entrenamiento y test. Los predictores más determinantes fueron el NPS previo del autor, el género literario (novela histórica y literaria como géneros "ganadores") y la antigüedad del libro. Un autor con buen historial de valoraciones predice casi por sí solo alta popularidad.</p>
+        <p>Con más de 6.000 libros publicados por día globalmente, plataformas como GoodReads necesitan herramientas para predecir popularidad antes de que un libro acumule reseñas masivas. El rating promedio por sí solo no es suficiente: la mitad de los libros se concentra entre 3.8 y 4.2 estrellas, lo que lo convierte en una métrica de muy baja diferenciación.</p>
+        <h3>Ingeniería de variables</h3>
+        <p>Se construyeron variables originales: <strong>NPS ajustado</strong> (combina ratio promotores/detractores con un umbral de participación mínima para evitar inestabilidad estadística), <strong>nps_autor_prev</strong> (reputación previa del autor en el dataset), <strong>q_libros_prev</strong> (trayectoria del autor) y <strong>clusters de género</strong> (8 segmentos generados con KMeans). La variable dependiente se definió como el percentil 70+ del NPS ajustado por género — popularidad relativa al género, no absoluta.</p>
+        <h3>Modelos comparados</h3>
+        <p>Se entrenaron y evaluaron cuatro modelos: Regresión Logística, Decision Tree (con poda via GridSearchCV), Random Forest y XGBoost. Los modelos más simples mostraron menor capacidad predictiva; el Decision Tree presentó sobreajuste extremo (métricas perfectas en train, caída abrupta en test).</p>
+        <h3>Resultado</h3>
+        <p>El modelo ganador fue <strong>XGBoost</strong> con 71% de precisión y la menor varianza entre entrenamiento y test, confirmado por validación cruzada. Los predictores más determinantes: el NPS previo del autor (un autor con buen historial predice popularidad casi por sí solo), el género "Novela Literaria e Histórica" (multiplica por 1.83 la probabilidad de éxito) y el formato Kindle/eBook.</p>
       </div>
       <div class="project-sidebar">
         <div class="sidebar-card">
@@ -986,13 +1026,18 @@
             <span class="tag">XGBoost</span>
             <span class="tag">Random Forest</span>
             <span class="tag">Scikit-learn</span>
+            <span class="tag">KMeans</span>
             <span class="tag">Pandas</span>
             <span class="tag">Seaborn</span>
           </div>
         </div>
         <div class="sidebar-card">
-          <h4>Tipo de proyecto</h4>
-          <p style="font-size:0.85rem; color:var(--muted);">Clasificación supervisada · Feature engineering · Validación cruzada</p>
+          <h4>Dataset</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">16.225 libros · GoodReads · Kaggle · 15 variables originales + features construidas</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>Mejor modelo</h4>
+          <p style="font-size:0.85rem; color:var(--muted);">XGBoost · Precisión 71% · Menor varianza train/test · Validación cruzada</p>
         </div>
         <div class="sidebar-card">
           <h4>Contexto</h4>
